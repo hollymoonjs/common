@@ -59,6 +59,9 @@ function derived<TCurrent, TNew>(
                 _reactive.mutate((value) => {
                     const newValue = options.get(value);
                     const mutatedValue = mutator(newValue);
+                    if (mutatedValue === undefined) {
+                        return options.set(newValue);
+                    }
                     return options.set(mutatedValue);
                 });
             },

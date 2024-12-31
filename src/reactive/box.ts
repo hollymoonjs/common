@@ -15,7 +15,10 @@ function box<T>(initial: T): Reactive<T> {
             onChange.fire(value);
         },
         mutate(mutator: ReactiveMutator<T>) {
-            _value = mutator(_value);
+            const result = mutator(_value);
+            if (result !== undefined) {
+                _value = result;
+            }
             onChange.fire(_value);
         },
     };

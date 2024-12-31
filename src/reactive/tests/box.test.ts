@@ -29,8 +29,26 @@ describe("reactive > box", () => {
     it("should mutate value", () => {
         const r = box(1);
 
+        const cb = vitest.fn();
+        r.onChange.addEventListener(cb);
+
         r.mutate((value) => value + 1);
 
         expect(r.value).toBe(2);
+        expect(cb).toHaveBeenCalledWith(2);
+    });
+
+    it("should mutate value without return value", () => {
+        const r = box<number[]>([]);
+
+        const cb = vitest.fn();
+        r.onChange.addEventListener(cb);
+
+        r.mutate((value) => {
+            value.push(1);
+        });
+
+        expect(r.value).toEqual([1]);
+        expect(cb).toHaveBeenCalledWith([1]);
     });
 });
