@@ -1,24 +1,24 @@
 import { describe, expect, it, vitest } from "vitest";
-import { SyncEvent } from "..";
+import { events } from "..";
 import { syncEventProxy } from "../syncEventProxy";
 
 function createTestProxy() {
-    const event = new SyncEvent<[number]>();
+    const event = events.sync<[number]>();
     const proxy = syncEventProxy(event, {
         listenerArgs: (value) => [value + 1],
-        fireArgs: (newValue) => [newValue - 1],
+        emitArgs: (newValue) => [newValue - 1],
     });
 
     return { event, proxy };
 }
 
 describe("events > syncEventProxy", () => {
-    it("should fire callback with correct args", () => {
+    it("should emit callback with correct args", () => {
         const { event, proxy } = createTestProxy();
         const cb = vitest.fn();
-        proxy.addEventListener(cb);
+        proxy.on(cb);
 
-        event.fire(1);
+        event.emit(1);
 
         expect(cb).toHaveBeenCalledWith(2);
     });
@@ -26,30 +26,30 @@ describe("events > syncEventProxy", () => {
     it("should remove listener", () => {
         const { event, proxy } = createTestProxy();
         const cb = vitest.fn();
-        proxy.addEventListener(cb);
-        proxy.removeEventListener(cb);
+        proxy.on(cb);
+        proxy.off(cb);
 
-        event.fire(1);
+        event.emit(1);
 
         expect(cb).not.toHaveBeenCalled();
     });
 
-    it("should transform fire args", () => {
+    it("should transform emit args", () => {
         const { event, proxy } = createTestProxy();
         const cb = vitest.fn();
-        event.addEventListener(cb);
+        event.on(cb);
 
-        proxy.fire(1);
+        proxy.emit(1);
 
         expect(cb).toHaveBeenCalledWith(0);
     });
 
-    it("should fire itself", () => {
+    it("should emit itself", () => {
         const { proxy } = createTestProxy();
         const cb = vitest.fn();
-        proxy.addEventListener(cb);
+        proxy.on(cb);
 
-        proxy.fire(1);
+        proxy.emit(1);
 
         expect(cb).toHaveBeenCalledWith(1);
     });

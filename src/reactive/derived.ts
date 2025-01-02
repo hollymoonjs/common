@@ -35,9 +35,9 @@ function derived<TCurrent, TNew>(
         options = { get: options };
     }
 
-    const onChange = syncEventProxy<[TCurrent], [TNew]>(reactive.onChange, {
+    const onChange = syncEventProxy<[TCurrent], [TNew]>(reactive.changeEvent, {
         listenerArgs: (value) => [options.get(value)],
-        fireArgs: (newValue) => {
+        emitArgs: (newValue) => {
             if ("set" in options) {
                 return [options.set(newValue)];
             }
@@ -48,7 +48,7 @@ function derived<TCurrent, TNew>(
     if ("set" in options) {
         const _reactive = reactive as Reactive<TCurrent>;
         return {
-            onChange,
+            changeEvent: onChange,
             get value() {
                 return options.get(reactive.value);
             },
@@ -68,7 +68,7 @@ function derived<TCurrent, TNew>(
         } as Reactive<TNew>;
     } else {
         return {
-            onChange,
+            changeEvent: onChange,
             get value() {
                 return options.get(reactive.value);
             },

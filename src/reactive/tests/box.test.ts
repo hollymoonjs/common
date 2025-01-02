@@ -19,7 +19,7 @@ describe("reactive > box", () => {
     it("should fire onChange event", () => {
         const r = box(1);
         const cb = vitest.fn();
-        r.onChange.addEventListener(cb);
+        r.changeEvent.on(cb);
 
         r.value = 2;
 
@@ -30,7 +30,7 @@ describe("reactive > box", () => {
         const r = box(1);
 
         const cb = vitest.fn();
-        r.onChange.addEventListener(cb);
+        r.changeEvent.on(cb);
 
         r.mutate((value) => value + 1);
 
@@ -42,7 +42,7 @@ describe("reactive > box", () => {
         const r = box<number[]>([]);
 
         const cb = vitest.fn();
-        r.onChange.addEventListener(cb);
+        r.changeEvent.on(cb);
 
         r.mutate((value) => {
             value.push(1);

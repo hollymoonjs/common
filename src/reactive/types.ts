@@ -1,10 +1,10 @@
-import { SyncEvent } from "../events";
+import { SyncEventHandlers } from "../events";
 
 export type ReactiveMutator<T> = (value: T) => T | void;
 
 export interface ReadableReactive<T> {
     get value(): T;
-    onChange: SyncEvent<[T]>;
+    changeEvent: SyncEventHandlers<[T]>;
 }
 
 export interface WriteableReactive<T> {

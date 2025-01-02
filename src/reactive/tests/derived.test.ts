@@ -27,7 +27,7 @@ describe("reactive > derived", () => {
             const { boxObj, derivedObj } = createTestDerived();
 
             const onChangeHandler = vitest.fn();
-            derivedObj.onChange.addEventListener(onChangeHandler);
+            derivedObj.changeEvent.on(onChangeHandler);
 
             boxObj.value = CHANGE_VALUE;
 
@@ -70,7 +70,7 @@ describe("reactive > derived", () => {
             const { boxObj, derivedObj } = createTestDerived();
 
             const onChangeHandler = vitest.fn();
-            derivedObj.onChange.addEventListener(onChangeHandler);
+            derivedObj.changeEvent.on(onChangeHandler);
 
             boxObj.value = 2;
 
@@ -97,7 +97,7 @@ describe("reactive > derived", () => {
             const { derivedObj } = createTestDerived();
 
             const onChangeHandler = vitest.fn();
-            derivedObj.onChange.addEventListener(onChangeHandler);
+            derivedObj.changeEvent.on(onChangeHandler);
 
             derivedObj.mutate((value) => value + 1);
 

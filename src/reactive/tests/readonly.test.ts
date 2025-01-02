@@ -23,7 +23,7 @@ describe("reactive > readonly", () => {
         const { boxObj, derivedObj } = createTestDerived();
 
         const onChangeHandler = vitest.fn();
-        derivedObj.onChange.addEventListener(onChangeHandler);
+        derivedObj.changeEvent.on(onChangeHandler);
 
         boxObj.value = CHANGE_VALUE;
 

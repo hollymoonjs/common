@@ -4,7 +4,7 @@ function readonly<TCurrent>(
     reactive: ReadableReactive<TCurrent>,
 ): ReadableReactive<TCurrent> {
     return {
-        onChange: reactive.onChange,
+        changeEvent: reactive.changeEvent,
         get value() {
             return reactive.value;
         },
