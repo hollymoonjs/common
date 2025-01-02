@@ -1,4 +1,5 @@
 export type MiddlewareEvent = {
+    get stopped(): boolean;
     stop(): void;
 };
 

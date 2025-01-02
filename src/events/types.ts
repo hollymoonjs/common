@@ -14,7 +14,7 @@ export type SyncEvent<TArgs extends unknown[]> = SyncEventHandlers<TArgs> &
 
 export type AsyncEventHandler<TArgs extends unknown[]> = (
     ...args: TArgs
-) => Promise<void>;
+) => Promise<void> | void;
 export type AsyncEventHandlers<TArgs extends unknown[]> = {
     on(handler: AsyncEventHandler<TArgs>): void;
     off(handler: AsyncEventHandler<TArgs>): void;

@@ -1,5 +1,5 @@
 import { DependencyGraph } from "../dependencyGraph";
-import { Middleware } from "./types";
+import { Middleware, MiddlewareEvent } from "./types";
 
 export interface UseMiddleware<TArgs extends unknown[]> {
     dependsOn?: Middleware<TArgs>[];
@@ -21,10 +21,13 @@ export class MiddlewareQueue<TArgs extends unknown[]> {
         this.middlewares.remove(listener);
     }
 
-    async emit(...eventArgs: TArgs) {
+    async emit(...eventArgs: TArgs): Promise<MiddlewareEvent> {
         let _stop = false;
 
         const event = {
+            get stopped() {
+                return _stop;
+            },
             stop() {
                 _stop = true;
             },
@@ -36,5 +39,7 @@ export class MiddlewareQueue<TArgs extends unknown[]> {
             }
             await listener(event, ...eventArgs);
         }
+
+        return event;
     }
 }
