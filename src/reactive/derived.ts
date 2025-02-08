@@ -15,15 +15,15 @@ export type DerivedOptions<TCurrent, TNew> = ReadOnlyDerivedOptions<
 };
 
 function derived<TCurrent, TNew>(
+    reactive: Reactive<TCurrent>,
+    options: DerivedOptions<TCurrent, TNew>,
+): Reactive<TNew>;
+function derived<TCurrent, TNew>(
     reactive: ReadableReactive<TCurrent>,
     options:
         | ReadOnlyDerivedOptions<TCurrent, TNew>
         | DerivedGetter<TCurrent, TNew>,
 ): ReadableReactive<TNew>;
-function derived<TCurrent, TNew>(
-    reactive: Reactive<TCurrent>,
-    options: DerivedOptions<TCurrent, TNew>,
-): Reactive<TNew>;
 function derived<TCurrent, TNew>(
     reactive: ReadableReactive<TCurrent> | Reactive<TCurrent>,
     options:
