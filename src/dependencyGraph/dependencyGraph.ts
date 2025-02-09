@@ -45,10 +45,8 @@ export class DependencyGraph<TKey, TValue> {
     remove(key: TKey, options?: RemoveOptions) {
         this.resolved = null;
 
-        const dependents = Array.from(
-            this._dependencies
-                .entries()
-                .filter(([_, dependencies]) => dependencies.includes(key)),
+        const dependents = [...this._dependencies.entries()].filter(
+            ([_, dependencies]) => dependencies.includes(key),
         );
 
         if (options?.recursive) {
