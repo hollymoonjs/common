@@ -2,7 +2,9 @@ import {
     SyncEvent,
     SyncEventEmitter,
     SyncEventHandler,
+    SyncEventHandlerCallback,
     SyncEventHandlers,
+    SyncEventObject,
 } from "./types";
 
 export type SyncEventProxyOptions<
@@ -41,13 +43,26 @@ export function syncEventProxy<TCurrent extends any[], TNew extends any[]>(
 
     if ("on" in targetEvent) {
         intercepted.on = function on(handler: SyncEventHandler<TNew>) {
-            const newHandler = (...args: TCurrent) => {
-                handler(...options.listenerArgs(...args));
-            };
+            if (typeof handler === "function") {
+                const newHandler = (...args: TCurrent) => {
+                    handler(...options.listenerArgs(...args));
+                };
 
-            handlerMap.set(handler, newHandler);
+                handlerMap.set(handler, newHandler);
 
-            return targetEvent.on(newHandler);
+                return targetEvent.on(newHandler);
+            } else {
+                const newHandler: SyncEventHandler<TCurrent> = {
+                    ...handler,
+                    handler: (e: SyncEventObject, ...args: TCurrent) => {
+                        handler.handler(e, ...options.listenerArgs(...args));
+                    },
+                };
+
+                handlerMap.set(handler, newHandler);
+
+                return targetEvent.on(newHandler);
+            }
         };
     }
     if ("off" in targetEvent) {
@@ -62,11 +77,22 @@ export function syncEventProxy<TCurrent extends any[], TNew extends any[]>(
 
     if ("once" in targetEvent) {
         intercepted.once = function once(listener: SyncEventHandler<TNew>) {
-            const newHandler = (...args: TCurrent) => {
-                listener(...options.listenerArgs(...args));
-            };
+            if (typeof listener === "function") {
+                const newHandler = (...args: TCurrent) => {
+                    listener(...options.listenerArgs(...args));
+                };
 
-            return targetEvent.once(newHandler);
+                return targetEvent.once(newHandler);
+            } else {
+                const newHandler: SyncEventHandler<TCurrent> = {
+                    ...listener,
+                    handler: (e: SyncEventObject, ...args: TCurrent) => {
+                        listener.handler(e, ...options.listenerArgs(...args));
+                    },
+                };
+
+                return targetEvent.once(newHandler);
+            }
         };
     }
 

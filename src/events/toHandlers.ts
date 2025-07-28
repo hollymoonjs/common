@@ -13,7 +13,7 @@ function toHandlers(
         on: event.on,
         off: event.off,
         once: event.once,
-    };
+    } as AsyncEventHandlers<unknown[]> | SyncEventHandlers<unknown[]>;
 }
 
 export default toHandlers;
