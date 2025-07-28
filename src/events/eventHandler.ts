@@ -6,8 +6,8 @@ import {
 } from "./types";
 
 export interface AsyncHandlerOptions<TArgs extends unknown[], TResult = void> {
-    before?: Array<AsyncEventHandlerObject<unknown[], unknown>>;
-    after?: Array<AsyncEventHandlerObject<unknown[], unknown>>;
+    before?: Array<AsyncEventHandlerObject<any[], any>>;
+    after?: Array<AsyncEventHandlerObject<any[], any>>;
 }
 
 export function asyncHandler<TArgs extends unknown[], TResult = void>(
@@ -24,8 +24,8 @@ export function asyncHandler<TArgs extends unknown[], TResult = void>(
 }
 
 export interface SyncHandlerOptions<TArgs extends unknown[], TResult = void> {
-    before?: Array<SyncEventHandlerObject<unknown[], unknown>>;
-    after?: Array<SyncEventHandlerObject<unknown[], unknown>>;
+    before?: Array<SyncEventHandlerObject<any[], any>>;
+    after?: Array<SyncEventHandlerObject<any[], any>>;
 }
 export function syncHandler<TArgs extends unknown[], TResult = void>(
     handler: (e: SyncEventObject, ...args: TArgs) => TResult,

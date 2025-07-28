@@ -4,8 +4,8 @@ export interface SyncEventObject {
 
 export type SyncEventHandlerObject<TArgs extends unknown[], TResult> = {
     handler: (e: SyncEventObject, ...args: TArgs) => TResult;
-    after?: Array<SyncEventHandlerObject<unknown[], unknown>>;
-    before?: Array<SyncEventHandlerObject<unknown[], unknown>>;
+    after?: Array<SyncEventHandlerObject<any[], any>>;
+    before?: Array<SyncEventHandlerObject<any[], any>>;
 };
 
 export type SyncEventHandlerCallback<TArgs extends unknown[]> = (
@@ -37,8 +37,8 @@ export type AsyncEventHandlerObject<TArgs extends unknown[], TResult> = {
         e: AsyncEventObject,
         ...args: TArgs
     ) => Promise<TResult> | TResult;
-    after?: Array<AsyncEventHandlerObject<unknown[], unknown>>;
-    before?: Array<AsyncEventHandlerObject<unknown[], unknown>>;
+    after?: Array<AsyncEventHandlerObject<any[], any>>;
+    before?: Array<AsyncEventHandlerObject<any[], any>>;
 };
 
 export type AsyncEventHandlerCallback<TArgs extends unknown[]> = (
